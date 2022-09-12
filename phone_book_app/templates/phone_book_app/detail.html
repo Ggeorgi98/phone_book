@@ -31,7 +31,9 @@ User's details
                         {{ contact.last_name }}
                     </td>
                     <td>
-                        <a href="{% url 'contact_details' contact.id %}">Details</a> | <a href="#">Update</a> | <a href="{% url 'delete_contact' contact.id %}">Delete</a>
+                        <a href="{% url 'contact_details' contact.id %}">Details</a> | 
+                        <a href="{% url 'update_contact' contact.id %}">Update</a> | 
+                        <a href="{% url 'delete_contact' contact.id %}">Delete</a>
                     </td>              
                 </tr>
             {% endfor %}
@@ -40,6 +42,9 @@ User's details
 {% else %}
     <p>No contacts have been added.</p>
 {% endif%}
-<p><a href="{% url 'create_contact' user.id %}">Add a contact</a>.</p>
+<div><a href="{% url 'create_contact' user.id %}">Add a contact</a> {% if user.contact_set.count > 0 %}
+| <a href="{% url 'list_contacts' user.id %}">See all contacts</a>
+{% endif%}
+</div>
 </div>
 {% endblock %}
