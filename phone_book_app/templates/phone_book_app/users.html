@@ -1,0 +1,42 @@
+{% extends "phone_book_app/layout.html" %}
+{% block title %}
+Users
+{% endblock %}
+{% block content %}
+{% if users %}
+    <table>
+        <thead>
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+                <th>Created at</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>
+                        {{ user.first_name }}
+                    </td>
+                    <td>
+                        {{ user.last_name }}
+                    </td>
+                    <td>
+                        {{ user.email }}
+                    </td>
+                    <td>
+                        {{ user.created_date | date:'d M Y' }} | {{ user.created_date | time:'H:i:s' }}
+                    </td>
+                    <td>
+                        <a href="{% url 'detail' user.id %}">Details</a> | <a href="{% url 'update' user.id %}">Update</a>
+                    </td>              
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No users have been created. Use the <a href="{% url 'create' %}">Create a user</a>.</p>
+{% endif%}
+{% endblock %}

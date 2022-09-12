@@ -1,0 +1,36 @@
+{% extends "phone_book_app/layout.html" %}
+{% block title %}
+Contacts
+{% endblock %}
+{% block content %}
+{% if contacts %}
+<h1> </h1>
+    <table>
+        <thead>
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contact in contacts %}
+                <tr>
+                    <td>
+                        {{ contact.first_name }}
+                    </td>
+                    <td>
+                        {{ contact.last_name }}
+                    </td>
+                    <td>
+                        <a href="{% url 'contact_details' contact.id %}">Details</a> | <a href="{% url 'delete_contact' contact.id %}">Delete</a>
+                    </td>              
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No contacts have been added.</p>    
+{% endif%}
+<p><a href="{% url 'create_contact' user_id %}">Add a contact</a>.</p>
+{% endblock %}
