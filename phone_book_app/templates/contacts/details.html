@@ -1,0 +1,20 @@
+{% extends "phone_book_app/layout.html" %}
+{% block title %}
+
+{% endblock %}
+{% block content %}
+<h1>{{ contact.first_name }} {{ contact.last_name }}</h1>
+<div>
+{% if contact.phone_set.count > 0 %}
+    <p>These are contact's phones: </p>
+    <ul>    
+        {% for phone in contact.phone_set.all %}
+            <li>{{ phone.PhoneNumber }}</li> <a href="{% url 'delete_phone' phone.id %}">Delete</a> | <a href="{% url 'update_phone' phone.id %}">Update</a>
+        {% endfor %}        
+    </ul>
+{% else %}
+    <p>There are no phones.</p>
+{% endif%}
+<p><a href="{% url 'add_phone' contact.id %}">Add a phone</a> | <a href="{{request.META.HTTP_REFERER}}">Back</a></p> 
+</div>
+{% endblock %}
