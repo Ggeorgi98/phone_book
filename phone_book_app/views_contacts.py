@@ -12,9 +12,9 @@ def contact_details(request, pk):
 
 def list_user_contacts(request, user_id):
     if user_id:
-        contacts = Contact.objects.filter(user=user_id).order_by('-first_name')        
+        contacts = Contact.objects.filter(user=user_id).order_by('-first_name').order_by('-last_name')[:5]
     else:
-        contacts = Contact.objects.order_by('-first_name')
+        contacts = Contact.objects.order_by('-first_name').order_by('-last_name')[:5]
     
     context = {
             'contacts': contacts,
@@ -42,8 +42,8 @@ def create_contact(request, user_id):
     else:
         return render(request, "contacts/create.html", {"form": form})
 
-def update_contact(request, contact_id):
-    contact = get_object_or_404(Contact, pk=contact_id)
+def update_contact(request, pk):
+    contact = get_object_or_404(Contact, pk=pk)
     if request.method == "POST":
         form = ContactFormModel(request.POST or None, instance=contact)
         if form.is_valid():
@@ -52,4 +52,4 @@ def update_contact(request, contact_id):
             return HttpResponseRedirect(reverse('contact_details', args=(contact.id,)))
     else:        
         form = ContactFormModel(instance=contact)
-        return render(request, 'contacts/details.html', {'form': form})
+        return render(request, 'contacts/update.html', {'form': form})

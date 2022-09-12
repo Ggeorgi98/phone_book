@@ -2,6 +2,7 @@ from django.utils.timezone import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
+from django.core.paginator import Paginator
 from phone_book_app.forms import UserFormModel
 from phone_book_app.models import User
 
@@ -15,10 +16,16 @@ def user_details(request, user_id):
     return render(request, 'phone_book_app/detail.html', {'user': user})
 
 def list_users(request):
-    users = User.objects.order_by('-created_date')[:5]
+    users = User.objects.order_by('-created_date')
+    
+    paginator = Paginator(users, 2)
+    page_number = request.GET.get('page')
+    paged_users = paginator.get_page(page_number)
+    
     context = {
-        'users': users,
+        'users': paged_users,
     }
+
     return render(request, 'phone_book_app/users.html', context)
 
 def update_user(request, user_id):

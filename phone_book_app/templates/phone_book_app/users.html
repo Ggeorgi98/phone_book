@@ -36,6 +36,23 @@ Users
             {% endfor %}
         </tbody>
     </table>
+    <div class="pagination">
+        <span class="step-links">
+            {% if users.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ users.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ users.number }} of {{ users.paginator.num_pages }}.
+            </span>
+    
+            {% if users.has_next %}
+                <a href="?page={{ users.next_page_number }}">next</a>
+                <a href="?page={{ users.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 {% else %}
     <p>No users have been created. Use the <a href="{% url 'create' %}">Create a user</a>.</p>
 {% endif%}
